@@ -1,0 +1,8 @@
+mindspore==2.5.0
+mindyolo==0.3.0
+mindnlp==0.4.0
+gtts==2.5.4
+dask
+distributed
+serial
+pygame==2.6.1
