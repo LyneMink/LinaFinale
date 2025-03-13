@@ -2,3 +2,5 @@ projet/
 checkpoints/
 .vscode/
 mindyolo/
+.mindnlp/
+__pycache__/

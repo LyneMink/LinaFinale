@@ -11,6 +11,7 @@ COPY main.py .
 COPY synthese_vocale.py .
 COPY detection.py .
 COPY description_environnement.py .
+COPY capteur.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 

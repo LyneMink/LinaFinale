@@ -4,7 +4,7 @@ import serial
 port = '/dev/ttyACM0'  # Remplacez par le bon port (Windows : 'COMX', Linux/Mac : '/dev/ttyUSB0' ou '/dev/ttyACM0')
 baudrate = 9600  # Doit correspondre au baudrate du microcontrôleur
 
-def run_capteur():
+def run_capteur(distance_queue):
     # Ouvrir la connexion série
     try:
         ser = serial.Serial(port, baudrate, timeout=1)
@@ -21,6 +21,7 @@ def run_capteur():
                 try:
                     distance = float(line)  # Convertir en float
                     print(f"Distance mesurée : {distance} cm")
+                    distance_queue.put(distance)
                 except ValueError:
                     print(f"Données reçues invalides : {line}")
     except KeyboardInterrupt:

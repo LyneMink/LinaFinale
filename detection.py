@@ -133,11 +133,14 @@ def draw_boxes(frame, detections, ratio, dwdh, class_names):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
     return frame
 
-def run_detection():
+def run_detection(distance):
     cap = cv2.VideoCapture("http://192.168.1.111:81/stream")
     if not cap.isOpened():
         print("Error: Could not open video.")
         return
+    
+    detected_objects = []
+
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -145,12 +148,16 @@ def run_detection():
         detections, ratio, dwdh = run_inference(model, frame)
         nms_results = non_max_suppression(detections, 0.7, 0.25)
         if len(nms_results) > 0 and nms_results[0] is not None:
-            frame = draw_boxes(frame, detections, ratio, dwdh, model.names)
+            for det in nms_results[0]:
+                x1, y1, x2, y2, conf, cls = det
+                class_name = model.names[int(cls)]  # Récupérer le nom de la classe
+                detected_objects.append(class_name)  # Ajouter à la liste
+                print(f"Objet détecté : {class_name}, Confiance : {conf:.2f}")
+
+            frame = draw_boxes(frame, nms_results[0], ratio, dwdh, model.names)
         cv2.imshow("Object Detection", frame)
         if cv2.waitKey(1) == 27:
             break
-
+        
     cap.release()
     cv2.destroyAllWindows()
-
-run_detection()
