@@ -6,6 +6,7 @@ import os
 from mindspore import Tensor, nn
 from mindyolo.models import create_model
 from mindyolo.utils import non_max_suppression
+from lecture_texte import lecture_texte
 
 
 def merge_yaml_configs(base_files, main_config, base_dir):
