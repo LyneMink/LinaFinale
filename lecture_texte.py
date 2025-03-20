@@ -5,16 +5,9 @@ from mindocr.mindocr.models import build_model
 from mindocr.mindocr.postprocess.det_db_postprocess import DBPostprocess
 from mindocr.mindocr.postprocess.rec_postprocess import CTCLabelDecode
 
-ESP32_CAM_URL = "http://192.168.1.111:81/stream"
+ESP32_CAM_URL = "http://192.168.1.100:8080/video"
 
-dbnet = build_model('dbnet_resnet50', pretrained=True)
-crnn = build_model('crnn_vgg7', pretrained=True)
-
-det_postprocess = DBPostprocess()
-rec_postprocess = CTCLabelDecode()
-
-
-def process_frame(frame):
+def process_frame(frame, dbnet, crnn, det_postprocess, rec_postprocess):
     # Prétraitement pour la détection
     input_image = cv2.resize(frame, (640, 640))
     input_image = input_image.astype(np.float32) / 255.0
@@ -72,6 +65,12 @@ def process_frame(frame):
 
 def lecture_texte():
     try:
+        # Initialisation des modèles
+        dbnet = build_model('dbnet_resnet50', pretrained=True)
+        crnn = build_model('crnn_vgg7', pretrained=True)
+        det_postprocess = DBPostprocess()
+        rec_postprocess = CTCLabelDecode()
+
         cap = cv2.VideoCapture(ESP32_CAM_URL)
         if not cap.isOpened():
             raise Exception("Impossible d'ouvrir le flux vidéo")
@@ -84,7 +83,7 @@ def lecture_texte():
                 print("Impossible de lire le flux vidéo")
                 break
 
-            result_frame = process_frame(frame)
+            result_frame = process_frame(frame, dbnet, crnn, det_postprocess, rec_postprocess)
             cv2.imshow("Text Detection", result_frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -95,3 +94,5 @@ def lecture_texte():
         cap.release()
         cv2.destroyAllWindows()
         print("Connexion avec la camera fermee")
+
+lecture_texte()

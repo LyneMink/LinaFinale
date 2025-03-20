@@ -6,7 +6,7 @@ import os
 from mindspore import Tensor, nn
 from mindyolo.models import create_model
 from mindyolo.utils import non_max_suppression
-from lecture_texte import lecture_texte
+from assistant import assistant
 
 
 def merge_yaml_configs(base_files, main_config, base_dir):
@@ -154,6 +154,8 @@ def run_detection(distance):
                 class_name = model.names[int(cls)]  # Récupérer le nom de la classe
                 detected_objects.append(class_name)  # Ajouter à la liste
                 print(f"Objet détecté : {class_name}, Confiance : {conf:.2f}")
+                if class_name == "book" and distance < 30:
+                    assistant()
 
             frame = draw_boxes(frame, nms_results[0], ratio, dwdh, model.names)
         cv2.imshow("Object Detection", frame)

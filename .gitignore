@@ -5,3 +5,4 @@ mindyolo/
 .mindnlp/
 __pycache__/
 *.tar.gz
+mindocr/
