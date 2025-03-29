@@ -6,16 +6,13 @@ RUN dnf update -y && \
 
 WORKDIR /app
 
-RUN git clone -b v0.5.0 https://github.com/mindspore-lab/mindocr.git /app/mindocr && \
-    cd /app/mindocr && \
-    pip install --no-cache-dir -r requirements.txt && \
+COPY /home/nzinga/Documents/ProjetFinalLINA/mindyolo /app
+
+WORKDIR /app/mindyolo
+RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -e .
 
-
-RUN git clone https://github.com/mindspore-lab/mindyolo.git /app/mindyolo && \
-    cd /app/mindyolo && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -e .
+WORKDIR /app
 
 COPY requirements.txt .
 COPY main.py .

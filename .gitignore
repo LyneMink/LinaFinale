@@ -6,3 +6,4 @@ mindyolo/
 __pycache__/
 *.tar.gz
 mindocr/
+mindyolo/*.egg-info/

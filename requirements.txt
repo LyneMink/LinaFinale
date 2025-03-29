@@ -7,3 +7,5 @@ distributed
 serial
 pygame==2.6.1
 opencv-python
+paddlepaddle
+paddleocr
