@@ -13,6 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -e .
 
 WORKDIR /app
+COPY /home/nzinga/Documents/ProjetFinalLINA/checkpoints /app
 
 COPY requirements.txt .
 COPY main.py .
