@@ -158,9 +158,8 @@ def run_detection(distance):
                     assistant()
 
             frame = draw_boxes(frame, nms_results[0], ratio, dwdh, model.names)
-        cv2.imshow("Object Detection", frame)
-        if cv2.waitKey(1) == 27:
-            break
         
     cap.release()
-    cv2.destroyAllWindows()
+    result = detected_objects[0] if detected_objects else None
+    print(f"Objet détecté : {result}")
+    return result
